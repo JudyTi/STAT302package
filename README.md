@@ -15,3 +15,14 @@ You can install the package through GitHub using:
 ``` r
 devtools::install_github("JudyTi/STAT302package")
 ```
+
+To view the vignette:
+
+``` r
+devtools::install_github("JudyTi/STAT302package", build_vignette = TRUE, build_opts = c())
+library(STAT302package)
+# Use this to view the vignette in the STAT302package HTML help
+help(package = "STAT302package", help_type = "html")
+# Use this to view the vignette as an isolated HTML file
+utils::browseVignettes(package = "STAT302package")
+```
