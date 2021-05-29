@@ -46,6 +46,6 @@ test_that("non-numeric input of x and mu throws error", {
   expect_error(my_t.test(x = "a string", alternative = "greater", mu = "a string"))
 })
 test_that("non-string/incorrect string input of alternative throws error", {
-  expect_error(my_t.test(x = x, alternative = 1, mu = 1))
-  expect_error(my_t.test(x = x, alternative = "error", mu = 1))
+  expect_error(my_t.test(x, 1, 1))
+  expect_error(my_t.test(x, "error", 1))
 })
