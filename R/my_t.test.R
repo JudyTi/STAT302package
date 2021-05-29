@@ -14,6 +14,8 @@
 #'   the value of the parameter \code{alternative},
 #'   the numeric p-value \code{p_val}.
 #'
+#' @importFrom stats pt sd
+#'
 #' @examples
 #' set.seed(302)
 #' x <- rnorm(10, mean = 1, sd = 1)

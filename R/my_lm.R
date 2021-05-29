@@ -10,6 +10,8 @@
 #'    and columns for the \code{Estimate}, \code{Std. Error}, \code{t value}, and
 #'    \code{Pr(>|t|)}.
 #'
+#' @importFrom stats model.frame model.matrix model.response predict pt
+#'
 #' @examples
 #' my_lm(mpg ~ hp + wt, mtcars)
 #'

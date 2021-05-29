@@ -12,6 +12,8 @@
 #'    observations \code{class} and a numeric with the cross-validation
 #'    misclassification error \code{cv_err}.
 #'
+#' @importFrom class knn
+#'
 #' @examples
 #' data <- na.omit(my_penguins)
 #' train <- data[, 3:6]
@@ -29,7 +31,7 @@ my_knn_cv <- function(train, cl, k_nn, k_cv) {
     y_train <- cl[fold != i]
     y_test <- cl[fold == i]
     # Record predictions
-    prediction <- as.character(class::knn(x_train, x_test, y_train, k_nn))
+    prediction <- as.character(knn(x_train, x_test, y_train, k_nn))
     class <- c(class, prediction)
     # Compute misclassification rate
     misclassification[i] <- mean(prediction != y_test)

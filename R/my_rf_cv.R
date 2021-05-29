@@ -8,6 +8,11 @@
 #'
 #' @return Numeric with the cross-validation error \code{cv_err}.
 #'
+#' @importFrom stats na.omit predict
+#' @importFrom magrittr %>%
+#' @importFrom dplyr select all_of
+#' @importFrom randomForest randomForest
+#'
 #' @examples
 #' my_rf_cv(5)
 #'
@@ -15,8 +20,8 @@
 my_rf_cv <- function(k) {
   # Define a variable fold within the penguins data
   name <- c("body_mass_g", "bill_length_mm", "bill_depth_mm", "flipper_length_mm")
-  data <- na.omit(my_penguins)
-  data <- data %>% dplyr::select(all_of(name))
+  data <- na.omit(STAT302package::my_penguins)
+  data <- data %>% select(all_of(name))
   fold <- sample(rep(1:k, length = nrow(data)))
   # Empty vector to store MSE
   mse <- c(NA, k)
@@ -25,7 +30,7 @@ my_rf_cv <- function(k) {
     training_data <- data[fold != i, ]
     test_data <- data[fold == i, ]
     # Train models
-    MODEL <- randomForest::randomForest(body_mass_g ~ bill_length_mm +
+    MODEL <- randomForest(body_mass_g ~ bill_length_mm +
                                           bill_depth_mm + flipper_length_mm,
                           data = training_data,
                           ntree = 100)
