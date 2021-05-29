@@ -15,6 +15,35 @@ knitr::opts_chunk$set(
 )
 ```
 
+## Introduction
+
+You can install the package through GitHub using:
+
+``` {r, eval = FALSE}
+devtools::install_github("JudyTi/STAT302package")
+```
+
+To begin, please load the package:
+
 ```{r setup}
 library(STAT302package)
 ```
+
+To view the vignette:
+
+``` {r, eval = FALSE}
+devtools::install_github("JudyTi/STAT302package", build_vignette = TRUE, build_opts = c())
+library(STAT302package)
+# Use this to view the vignette in the STAT302package HTML help
+help(package = "STAT302package", help_type = "html")
+# Use this to view the vignette as an isolated HTML file
+utils::browseVignettes(package = "STAT302package")
+```
+
+## Tutorial for `my_t.test`
+
+## Tutorial for `my_lm`
+
+## Tutorial for `my_knn_cv` using `my_penguins`
+
+## Tutorial for `my_rf_cv`
