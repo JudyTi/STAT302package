@@ -32,5 +32,5 @@ my_lm <- function(formula, data) {
   # construct table
   tab <- cbind(coeff, standard_error, test_stat, p_val)
   colnames(tab) <- c("Estimate", "Std. Error", "t value", "Pr(>|t|)")
-  return(tab)
+  return(as.table(tab))
 }
