@@ -31,6 +31,7 @@ To begin, please load the package:
 library(STAT302package)
 library(ggplot2)
 data("my_gapminder")
+data("my_penguins")
 ```
 
 To view the vignette:
@@ -149,4 +150,72 @@ From the graph, we could see the trends of Europe and Oceania are fit with the l
 
 ## Tutorial for `my_knn_cv` using `my_penguins`
 
+Predict output class `species` using covariates `bill_length_mm`, `bill_depth_mm`, `flipper_length_mm`, and `body_mass_g` use 5-fold cross validation (`k_cv = 5`).
+
+``` {r}
+data <- na.omit(my_penguins)
+train <- data[, 3:6]
+train_miscl <- rep(NA, 10)
+cv_miscl <- rep(NA, 10)
+# Iterate from k_nn=1:10
+for (i in (1:10)) {
+  knn_result <- my_knn_cv(train, data$species, i, 5)
+  # Calculate training misclassification rates
+  train_miscl[i] <- mean(as.numeric(knn_result$class != data$species))
+  # Get CV misclassification rates
+  cv_miscl[i] <- knn_result$cv_err
+}
+my_knn_result <- data.frame("k_nn" = 1:10, 
+                            "train_miscl" = train_miscl, 
+                            "cv_miscl" = cv_miscl)
+# Build table to display the values.
+kableExtra::kable_styling(knitr::kable(my_knn_result))
+```
+
+Based on training misclassification rates, I would choose `k_nn = 1` because the value is the smallest which is 0.
+And based on CV misclassification rates, I still would choose `k_nn = 1` because the value is again the smallest.
+
+Therefore, in practice I would choose `k_nn = 1` because both training and cross-validation has the minimum test error at `k_nn = 1`.
+
 ## Tutorial for `my_rf_cv`
+
+``` {r, fig.width=6.8, fig.height=6}
+cv_num <- matrix(NA, 30, 3)
+sd_cv <- rep(NA, 3)
+a <- 1
+
+# Iterate through k in (2, 5, 10)
+for (i in c(2, 5, 10)) {
+  # For each value of k, run function 30 times
+  for (j in 1:30) {
+    # Call my function tp get CV estimated MSE
+    cv_num[j, a] <- my_rf_cv(i)
+  }
+  sd_cv[a] <- sd(cv_num[, a])
+  a <- a + 1
+}
+
+# Build data frame of output
+out1 <- data.frame("k" = "2", "result" = cv_num[, 1])
+out2 <- data.frame("k" = "5", "result" = cv_num[, 2])
+out3 <- data.frame("k" = "10", "result" = cv_num[, 3])
+cv_result <- rbind(out1, out2, out3)
+# Plot 3 boxplots to display data
+ggplot(data = cv_result, aes(x = factor(k), y = result, fill = k)) + 
+  geom_boxplot() +
+  labs(x = "k",
+       y = "CV MSE",
+       title = "3 boxplots of CV MSE from 30 simulations") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+# Build table to display the values.
+cv_table <- data.frame("mean" = colMeans(cv_num), 
+                       "sd" = sd_cv)
+kableExtra::kable_styling(knitr::kable(cv_table))
+```
+
+From the boxplot graph, we could see as `k` increases, the cross-validation error's median decreases and width decreases.
+
+Also, from the table, we could see as `k` increases, the cross-validation error's mean decreases and the standard deviation decreases.
+
+Those two indicates the same thing -- as `k` increases, test is more accurate. This makes sense since the rule of thumb, `k = 5` and `k = 10` tend to result in an ideal balance in terms of the bias-variance tradeoff.
