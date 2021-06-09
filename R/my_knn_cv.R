@@ -22,7 +22,6 @@
 #' @export
 my_knn_cv <- function(train, cl, k_nn, k_cv) {
   fold <- sample(rep(1:k_cv, length = nrow(train)))
-  class <- vector()
   misclassification <- vector()
   # Iteration
   for (i in 1:k_cv) {
@@ -32,10 +31,10 @@ my_knn_cv <- function(train, cl, k_nn, k_cv) {
     y_test <- cl[fold == i]
     # Record predictions
     prediction <- as.character(knn(x_train, x_test, y_train, k_nn))
-    class <- c(class, prediction)
     # Compute misclassification rate
     misclassification[i] <- mean(prediction != y_test)
   }
+  class <- knn(train, train, cl, k_nn)
   # Compute average misclassification rate to get CV error
   cv_err <- mean(misclassification)
   return(list("class" = class, "cv_err" = cv_err))
