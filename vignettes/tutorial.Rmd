@@ -30,6 +30,7 @@ To begin, please load the package:
 ```{r setup}
 library(STAT302package)
 library(ggplot2)
+library(kableExtra)
 data("my_gapminder")
 data("my_penguins")
 ```
@@ -169,7 +170,7 @@ my_knn_result <- data.frame("k_nn" = 1:10,
                             "train_miscl" = train_miscl, 
                             "cv_miscl" = cv_miscl)
 # Build table to display the values.
-kableExtra::kable_styling(knitr::kable(my_knn_result))
+kable_styling(kable(my_knn_result))
 ```
 
 Based on training misclassification rates, I would choose `k_nn = 1` because the value is the smallest which is 0.
@@ -211,7 +212,7 @@ ggplot(data = cv_result, aes(x = factor(k), y = result, fill = k)) +
 # Build table to display the values.
 cv_table <- data.frame("mean" = colMeans(cv_num), 
                        "sd" = sd_cv)
-kableExtra::kable_styling(knitr::kable(cv_table))
+kable_styling(kable(cv_table))
 ```
 
 From the boxplot graph, we could see as `k` increases, the cross-validation error's median decreases and width decreases.
