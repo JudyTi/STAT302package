@@ -17,6 +17,8 @@ knitr::opts_chunk$set(
 
 ## Introduction
 
+This is a R package including four functions: T-test function `my_t.test`, Linear Model function `my_lm`, Random Forest Cross-Validation function `my_knn_cv` and K-Nearest Neighbors Cross-Validation function `my_rf_cv`.
+
 You can install the package through GitHub using:
 
 ``` {r, eval = FALSE}
@@ -27,6 +29,7 @@ To begin, please load the package:
 
 ```{r setup}
 library(STAT302package)
+data("my_gapminder")
 ```
 
 To view the vignette:
@@ -41,6 +44,68 @@ utils::browseVignettes(package = "STAT302package")
 ```
 
 ## Tutorial for `my_t.test`
+
+This function performs a one sample t-test in R. 
+
+To demonstrate and present the function, the following three tests will use the `lifeExp` data from `my_gapminder` with the p-value cut-off of $\alpha = 0.05$.
+
+### Two side test
+
+The first hypothesis test is:
+\[\begin{align}
+  H_0: \mu &= 60,\\
+  H_a: \mu &\neq 60.
+  \end{align}\]
+  
+This is saying that the default null hypothesis $H_0$ is `mu` which equals to 60 and the alternative hypothesis $H_a$ is `mu` which isn't equal to 60. It's an example of two side test.
+
+For this two side test, we could use the following code:
+
+``` {r}
+# two-sided t-test
+two_side <- my_t.test(my_gapminder$lifeExp, alternative = "two.sided", mu = 60)
+```
+  
+Thus the p value of this test is `r two_side$p_val`. This is greater than our pre-determined cut-off of 0.05, so we conclude that the result isn't statistically significant. Therefore, we don't reject null hypothesis $H_0$.
+
+### One side test -- Upper tail
+
+The second hypothesis test is:
+\[\begin{align}
+  H_0: \mu &= 60,\\
+  H_a: \mu &\neq 60.
+  \end{align}\]
+
+This is saying that the default null hypothesis $H_0$ is `mu` which equals to 60 and the alternative hypothesis $H_a$ is `mu` which not equals to 60. It's an example of two side test.
+
+For this one side upper tail test, we could use the following code:
+
+``` {r}
+# one-sided t-test -- upper tail
+upper_test <- my_t.test(my_gapminder$lifeExp, alternative = "greater", mu = 60)
+```
+
+Thus the p value of this test is `r upper_test$p_val`. This is greater than our pre-determined cut-off of 0.05, so we conclude that the result isn't statistically significant. Therefore, we don't reject null hypothesis $H_0$.
+
+### One side test -- Lower tail
+
+The third hypothesis test is:
+\[\begin{align}
+  H_0: \mu &= 60,\\
+  H_a: \mu &\neq 60.
+  \end{align}\]
+
+This is saying that the default null hypothesis $H_0$ is `mu` which equals to 60 and the alternative hypothesis $H_a$ is `mu` which isn't equal to 60. It's an example of two side test.
+
+For this one side lower tail test, we could use the following code:
+
+``` {r}
+# one-sided t-test -- lower tail
+lower_test <- my_t.test(my_gapminder$lifeExp, alternative = "less", mu = 60)
+```
+
+Thus the p value of this test is `r lower_test$p_val`. This is less than our pre-determined cut-off of 0.05, so we conclude that the result is statistically significant. Therefore, we reject null hypothesis $H_0$.
+
 
 ## Tutorial for `my_lm`
 
