@@ -23,7 +23,8 @@ Imports:
     class,
     randomForest,
     magrittr,
-    stats
+    stats,
+    ggplot2
 Depends: 
     R (>= 2.10)
 VignetteBuilder: knitr
