@@ -29,6 +29,7 @@ To begin, please load the package:
 
 ```{r setup}
 library(STAT302package)
+library(ggplot2)
 data("my_gapminder")
 ```
 
@@ -68,34 +69,15 @@ two_side <- my_t.test(my_gapminder$lifeExp, alternative = "two.sided", mu = 60)
   
 Thus the p value of this test is `r two_side$p_val`. This is greater than our pre-determined cut-off of 0.05, so we conclude that the result isn't statistically significant. Therefore, we don't reject null hypothesis $H_0$.
 
-### One side test -- Upper tail
+### One side test -- Lower tail
 
 The second hypothesis test is:
 \[\begin{align}
   H_0: \mu &= 60,\\
-  H_a: \mu &\neq 60.
+  H_a: \mu &< 60.
   \end{align}\]
 
-This is saying that the default null hypothesis $H_0$ is `mu` which equals to 60 and the alternative hypothesis $H_a$ is `mu` which not equals to 60. It's an example of two side test.
-
-For this one side upper tail test, we could use the following code:
-
-``` {r}
-# one-sided t-test -- upper tail
-upper_test <- my_t.test(my_gapminder$lifeExp, alternative = "greater", mu = 60)
-```
-
-Thus the p value of this test is `r upper_test$p_val`. This is greater than our pre-determined cut-off of 0.05, so we conclude that the result isn't statistically significant. Therefore, we don't reject null hypothesis $H_0$.
-
-### One side test -- Lower tail
-
-The third hypothesis test is:
-\[\begin{align}
-  H_0: \mu &= 60,\\
-  H_a: \mu &\neq 60.
-  \end{align}\]
-
-This is saying that the default null hypothesis $H_0$ is `mu` which equals to 60 and the alternative hypothesis $H_a$ is `mu` which isn't equal to 60. It's an example of two side test.
+This is saying that the default null hypothesis $H_0$ is `mu` which equals to 60 and the alternative hypothesis $H_a$ is `mu` which is less than 60. It's an example of two side test.
 
 For this one side lower tail test, we could use the following code:
 
@@ -106,8 +88,64 @@ lower_test <- my_t.test(my_gapminder$lifeExp, alternative = "less", mu = 60)
 
 Thus the p value of this test is `r lower_test$p_val`. This is less than our pre-determined cut-off of 0.05, so we conclude that the result is statistically significant. Therefore, we reject null hypothesis $H_0$.
 
+### One side test -- Upper tail
+
+The third hypothesis test is:
+\[\begin{align}
+  H_0: \mu &= 60,\\
+  H_a: \mu &> 60.
+  \end{align}\]
+
+This is saying that the default null hypothesis $H_0$ is `mu` which equals to 60 and the alternative hypothesis $H_a$ is `mu` which is greater to 60. It's an example of two side test.
+
+For this one side upper tail test, we could use the following code:
+
+``` {r}
+# one-sided t-test -- upper tail
+upper_test <- my_t.test(my_gapminder$lifeExp, alternative = "greater", mu = 60)
+```
+
+Thus the p value of this test is `r upper_test$p_val`. This is greater than our pre-determined cut-off of 0.05, so we conclude that the result isn't statistically significant. Therefore, we don't reject null hypothesis $H_0$.
 
 ## Tutorial for `my_lm`
+
+To demonstrate a regression, we use `lifeExp` as response variable and `gdpPercap` and `continent` as explanatory variables using the following code:
+
+``` {r, warning=FALSE}
+# Demonstrate a regression
+(lm_tut <- my_lm(lifeExp ~ gdpPercap + continent, data = my_gapminder))
+```
+
+From the result of `gdpPercap`, we could get the expected difference `r lm_tut[2]` in the response between two observations differing by one unit of `gdpPercap`, with all other covariates identical.
+
+Then the hypothesis test associated with the `gdpPercap` coefficient is: 
+\[\begin{align}
+  H_0: \mu &= 0,\\
+  H_a: \mu &\neq 0.
+  \end{align}\]
+
+with the p-value cut-off of $\alpha = 0.05$.
+
+From the value of `Pr(>|t|)`, as it is less than our pre-determined cut-off of 0.05, so we conclude that the result is statistically significant. Therefore, we reject null hypothesis $H_0$. 
+
+Next, we can use the following code to plot the Actual vs. Fitted values:
+
+``` {r, fig.width=6.8, fig.height=4.5}
+# Create data frame
+x <- model.matrix(lifeExp ~ gdpPercap + continent, data = my_gapminder)
+mod_fits <- x %*% lm_tut[, 1]
+my_df <- data.frame("fitted" = mod_fits, 
+                    "actual" = my_gapminder$lifeExp, 
+                    "continent" = my_gapminder$continent)
+# Plot Actual vs. Fitted for the response
+ggplot(my_df, aes(x = fitted, y = actual, color = continent)) +
+  geom_point(size = 0.1) +
+  geom_abline(slope = 1, intercept = 0, col = "black", lty = 2) + 
+  labs(x = "Fitted values", y = "Actual values", title = "Actual vs. Fitted") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+From the graph, we could see the trends of Europe and Oceania are fit with the line whereas the others aren't. This implies the model we used is good for Europe and Oceania, but for other continent we probably need other models.
 
 ## Tutorial for `my_knn_cv` using `my_penguins`
 
