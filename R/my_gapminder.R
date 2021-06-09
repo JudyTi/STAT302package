@@ -22,6 +22,7 @@
 #' @seealso \code{\link[gapminder]{country_colors}} for a nice color scheme for the countries
 #' @importFrom tibble tibble
 #' @examples
+#' gapminder <- my_gapminder
 #' str(gapminder)
 #' head(gapminder)
 #' summary(gapminder)
@@ -29,8 +30,6 @@
 #' aggregate(lifeExp ~ continent, gapminder, median)
 #' plot(lifeExp ~ year, gapminder, subset = country == "Cambodia", type = "b")
 #' plot(lifeExp ~ gdpPercap, gapminder, subset = year == 2007, log = "x")
-#'
-#' gapminder <- my_gapminder
 #'
 #' if (require("dplyr")) {
 #' gapminder %>%
