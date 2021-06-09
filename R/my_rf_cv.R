@@ -9,7 +9,6 @@
 #' @return Numeric with the cross-validation error \code{cv_err}.
 #'
 #' @importFrom stats na.omit predict
-#' @importFrom magrittr %>%
 #' @importFrom dplyr select all_of
 #' @importFrom randomForest randomForest
 #'
