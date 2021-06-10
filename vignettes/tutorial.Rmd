@@ -29,10 +29,6 @@ To begin, please load the package:
 
 ```{r setup}
 library(STAT302package)
-library(ggplot2)
-library(kableExtra)
-data("my_gapminder")
-data("my_penguins")
 ```
 
 To view the vignette:
@@ -44,6 +40,14 @@ library(STAT302package)
 help(package = "STAT302package", help_type = "html")
 # Use this to view the vignette as an isolated HTML file
 utils::browseVignettes(package = "STAT302package")
+```
+
+The following tutorials uses:
+```{r}
+library(ggplot2)
+library(kableExtra)
+data("my_gapminder")
+data("my_penguins")
 ```
 
 ## Tutorial for `my_t.test`
@@ -166,15 +170,15 @@ In general, the process of k-fold cross-validation is as follows:
 The following code uses `my_knn_cv` in the package to perform 5-fold cross-validation (`k_cv = 5`).
 
 ``` {r}
-data <- na.omit(my_penguins)
-train <- data[, 3:6]
+info <- na.omit(my_penguins)
+train <- info[, 3:6]
 train_miscl <- rep(NA, 10)
 cv_miscl <- rep(NA, 10)
 # Iterate from k_nn=1:10
 for (i in (1:10)) {
-  knn_result <- my_knn_cv(train, data$species, i, 5)
+  knn_result <- my_knn_cv(train, info$species, i, 5)
   # Calculate training misclassification rates
-  train_miscl[i] <- mean(as.numeric(knn_result$class != data$species))
+  train_miscl[i] <- mean(as.numeric(knn_result$class != info$species))
   # Get CV misclassification rates
   cv_miscl[i] <- knn_result$cv_err
 }
