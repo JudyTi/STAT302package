@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 ## Introduction
 
-This is a R package including four functions: T-test function `my_t.test`, Linear Model function `my_lm`, Random Forest Cross-Validation function `my_knn_cv` and K-Nearest Neighbors Cross-Validation function `my_rf_cv`.
+This is a R package including four functions: T-test function `my_t.test`, Linear Model function `my_lm`, K-Nearest Neighbors Cross-Validation function `my_knn_cv` and  Random Forest Cross-Validation function `my_rf_cv`.
 
 You can install the package through GitHub using:
 
@@ -185,12 +185,12 @@ my_knn_result <- data.frame("k_nn" = 1:10,
 kable_styling(kable(my_knn_result))
 ```
 
-From 5-fold cross-validation, we have the prediction and could calculate misclassification rates.
+From 5-fold cross-validation, we have the prediction and misclassification rates.
 
 Based on training misclassification rates, I would choose `k_nn = 1` because the value is the smallest which is 0.
 And based on CV misclassification rates, I still would choose `k_nn = 1` because the value is again the smallest.
 
-Therefore, in practice I would choose `k_nn = 1` because both training and cross-validation identifies `k_nn = 1` with the minimum test error.
+Therefore, in practice I would choose `k_nn = 1` because cross-validation identifies `k_nn = 1` with the minimum training and test errors.
 
 
 ## Tutorial for `my_rf_cv`
