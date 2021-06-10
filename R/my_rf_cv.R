@@ -19,7 +19,7 @@
 my_rf_cv <- function(k) {
   # Define a variable fold within the penguins data
   name <- c("body_mass_g", "bill_length_mm", "bill_depth_mm", "flipper_length_mm")
-  data <- na.omit(STAT302package::my_penguins)
+  data <- na.omit(my_penguins)
   data <- data %>% select(all_of(name))
   fold <- sample(rep(1:k, length = nrow(data)))
   # Empty vector to store MSE
